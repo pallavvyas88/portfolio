@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroCompress | AI Image Optimizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
+</head>
+<body>
+
+<div id="compareModal" class="modal-overlay">
+    <div class="modal-glass">
+        <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        <h3>Quality Comparison</h3>
+        <div class="slider-container">
+            <img-comparison-slider>
+                <img slot="first" id="imgBefore" width="100%" />
+                <div slot="first" class="slider-label left">Original</div>
+                <img slot="second" id="imgAfter" width="100%" />
+                <div slot="second" class="slider-label right">Optimized</div>
+            </img-comparison-slider>
+        </div>
+    </div>
+</div>
+
+<div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+</div>
+
+<main class="app-container">
+    <header class="app-header">
+        <div class="logo"><i class="fa-solid fa-bolt"></i> Jackaru Compressor</div>
+        <p>Next-Gen Lossless Image Compression</p>
+    </header>
+
+    <div class="glass-panel">
+        <div class="controls-grid">
+            <div class="input-group">
+                <label><i class="fa-solid fa-file-export"></i> Output Format</label>
+                <div class="select-wrapper">
+                    <select id="formatSelect">
+                        <option value="webp">WebP (Recommended)</option>
+                        <option value="jpeg">JPEG (Standard)</option>
+                        <option value="png">PNG (Lossless)</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropzone" id="dropZone">
+            <div class="dropzone-content">
+                <div class="icon-box"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <h3>Drop files here or click to upload</h3>
+                <p class="file-hint">Supports PNG, JPG, WEBP up to 50MB</p>
+                <input type="file" id="fileInput" multiple accept="image/*" hidden>
+                <div id="fileCount" class="file-badge"></div>
+            </div>
+        </div>
+
+        <button id="processBtn" class="cta-btn" disabled>
+            <span>Compress Images</span>
+            <i class="fa-solid fa-rocket"></i>
+        </button>
+
+        <div id="progressContainer" class="progress-wrapper" style="display: none;">
+            <div class="progress-header">
+                <span id="progressStatus">Starting...</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-track">
+                <div id="progressBar" class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultsSection" class="results-panel" style="display: none;">
+        <div class="results-header">
+            <div id="timingBadge" class="stat-badge">
+                <i class="fa-regular fa-clock"></i> <span>0.00s</span>
+            </div>
+            <a href="#" id="downloadLink" class="download-all">
+                <i class="fa-solid fa-file-zipper"></i> Download ZIP
+            </a>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="statsTable">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Original</th>
+                        <th>Optimized</th>
+                        <th>Savings</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="statsBody"></tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
