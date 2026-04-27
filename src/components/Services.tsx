@@ -32,7 +32,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="relative py-32 bg-slate-900 dark:bg-black overflow-hidden text-white">
+    <section id="services" className="relative py-20 md:py-24 bg-slate-900 dark:bg-black overflow-hidden text-white">
       {/* Ambient Glow */}
       <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.1),transparent_60%)]" />
       

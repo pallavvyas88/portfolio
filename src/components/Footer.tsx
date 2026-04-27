@@ -29,7 +29,7 @@ export default function Footer() {
               <Twitter className="h-5 w-5" />
               <span className="sr-only">Twitter</span>
             </a>
-            <a href="mailto:hello@example.com" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
+            <a href="/#contact" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
               <Mail className="h-5 w-5" />
               <span className="sr-only">Email</span>
             </a>

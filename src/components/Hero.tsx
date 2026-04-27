@@ -27,7 +27,7 @@ export default function Hero() {
   };
 
   return (
-    <section ref={containerRef} onMouseMove={handleMouseMove} id="hero" className="relative min-h-[100vh] overflow-hidden flex items-center pt-24 pb-24 md:pt-32 bg-[#030303]">
+    <section ref={containerRef} onMouseMove={handleMouseMove} id="hero" className="relative min-h-[100vh] overflow-hidden flex items-center pt-20 pb-16 md:pt-24 bg-[#030303]">
       {/* Dynamic Grid & Ambient Glows */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       
