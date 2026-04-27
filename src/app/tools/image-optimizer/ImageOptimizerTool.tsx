@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Download, Image as ImageIcon, UploadCloud, RefreshCw, Layers, X, Zap } from 'lucide-react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { useEffect } from 'react';
 
 type CompressionResult = {
   name: string;
@@ -18,21 +19,64 @@ type CompressionResult = {
   error: string | null;
 };
 
-export default function Tools() {
+function FileThumbnail({ file }: { file: File }) {
+  const [url, setUrl] = useState<string>('');
+  
+  useEffect(() => {
+    const objectUrl = URL.createObjectURL(file);
+    setUrl(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+
+  if (!url) return <ImageIcon className="w-8 h-8 p-1.5 rounded bg-white/5 text-sky-400 shrink-0" />;
+  
+  return (
+    <img 
+      src={url} 
+      alt={file.name} 
+      className="w-8 h-8 rounded object-cover shrink-0 border border-white/10 bg-black/50" 
+    />
+  );
+}
+
+export default function ImageOptimizerTool() {
   const [files, setFiles] = useState<File[]>([]);
   const [format, setFormat] = useState('webp');
   const [quality, setQuality] = useState(0.8);
+  const [maxWidth, setMaxWidth] = useState<number | ''>(2000);
+  const [seoPrefix, setSeoPrefix] = useState('');
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
   const [results, setResults] = useState<CompressionResult[]>([]);
   const [selectedPreview, setSelectedPreview] = useState<CompressionResult | null>(null);
   const [elapsedTime, setElapsedTime] = useState('0.00');
+  const [sliderValue, setSliderValue] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
 
   // File drop logic
   const handleFileSelection = (selectedFiles: FileList | null) => {
     if (!selectedFiles) return;
-    setFiles(Array.from(selectedFiles));
-    setResults([]);
-    setSelectedPreview(null);
+    
+    const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+    const incomingFiles = Array.from(selectedFiles);
+    const validFiles = incomingFiles.filter(f => validTypes.includes(f.type));
+    
+    if (validFiles.length !== incomingFiles.length) {
+      setUploadError('Invalid file type. Please upload PNG, JPG, or WEBP.');
+    } else {
+      setUploadError(null);
+    }
+
+    if (validFiles.length > 0) {
+      setFiles(prev => {
+        // Prevent duplicates based on name and size
+        const existingIdentifiers = new Set(prev.map(f => `${f.name}-${f.size}`));
+        const newUniqueFiles = validFiles.filter(f => !existingIdentifiers.has(`${f.name}-${f.size}`));
+        return [...prev, ...newUniqueFiles];
+      });
+      setResults([]);
+      setSelectedPreview(null);
+    }
   };
 
   const removeFile = (index: number) => {
@@ -52,8 +96,9 @@ export default function Tools() {
     const image = await loadImage(originalUrl);
     const canvas = document.createElement('canvas');
     
-    // Scale logic to prevent massive canvas crashes (e.g. max 2000px)
-    const scale = Math.min(2000 / image.naturalWidth, 2000 / image.naturalHeight, 1);
+    // Scale logic to prevent massive canvas crashes or explicitly resize
+    const limit = typeof maxWidth === 'number' && maxWidth > 0 ? maxWidth : 2000;
+    const scale = Math.min(limit / image.naturalWidth, limit / image.naturalHeight, 1);
     canvas.width = Math.round(image.naturalWidth * scale);
     canvas.height = Math.round(image.naturalHeight * scale);
     const ctx = canvas.getContext('2d');
@@ -76,7 +121,9 @@ export default function Tools() {
     const nameParts = file.name.split('.');
     const namePart = nameParts.length > 1 ? nameParts.slice(0, -1).join('.') : file.name;
     const ext = format === 'jpeg' ? 'jpg' : (format === 'png' ? 'png' : 'webp');
-    const outputFilename = `${namePart}.${ext}`;
+    
+    const suffix = seoPrefix.trim() ? `-${seoPrefix.trim().replace(/[^a-zA-Z0-9-]/g, '-')}` : '';
+    const outputFilename = `${namePart}${suffix}.${ext}`;
 
     const reduction = ((file.size - blob.size) / file.size * 100).toFixed(2);
 
@@ -129,7 +176,7 @@ export default function Tools() {
   };
 
   return (
-    <section id="tools" className="relative py-32 bg-slate-950 overflow-hidden text-white">
+    <section id="tools" className="relative py-16 md:py-24 bg-slate-950 overflow-hidden text-white">
       {/* Immersive Dark AI Background */}
       <div className="absolute inset-0 bg-[#050505] transition-colors duration-500" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.05)_0%,transparent_100%)]" />
@@ -142,7 +189,7 @@ export default function Tools() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-5 py-2 text-sm font-medium tracking-widest text-sky-400 shadow-[0_0_20px_rgba(56,189,248,0.15)]">
             <Layers className="h-4 w-4" />
@@ -151,9 +198,20 @@ export default function Tools() {
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-500 mb-6">
             Lossless Image <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-500">Compression.</span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
             Upload massive image assets and watch our intelligent browser engine slash sizes by up to 80% instantly and securely.
           </p>
+
+          {/* Prominent Privacy Banner */}
+          <div className="mx-auto max-w-2xl bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 flex items-center justify-center gap-3 backdrop-blur-md shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+            <div className="bg-emerald-500/20 p-2 rounded-full text-emerald-400">
+               <svg height="20" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="20" data-view-component="true" className="fill-current"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+            </div>
+            <div className="text-left">
+              <p className="text-emerald-400 font-bold text-sm">100% Secure & Private</p>
+              <p className="text-slate-300 text-xs">All processing happens locally in your browser. No files are ever uploaded or stored on our servers.</p>
+            </div>
+          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8 items-start">
@@ -168,9 +226,17 @@ export default function Tools() {
             >
               {/* Dropzone */}
               <div
-                className="group relative rounded-[1.5rem] border-2 border-dashed border-slate-700 bg-black/40 hover:bg-black/60 p-10 text-center transition-all hover:border-sky-500/50 flex flex-col items-center justify-center min-h-[280px]"
+                role="button"
+                tabIndex={0}
+                aria-label="File upload dropzone"
+                className="group relative rounded-[1.5rem] border-2 border-dashed border-slate-700 bg-black/40 hover:bg-black/60 p-10 text-center transition-all hover:border-sky-500/50 flex flex-col items-center justify-center min-h-[280px] focus:outline-none focus:ring-2 focus:ring-sky-500"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => { e.preventDefault(); handleFileSelection(e.dataTransfer.files); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    document.getElementById('file-upload')?.click();
+                  }
+                }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-sky-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[1.5rem]" />
                 <div className="relative z-10 flex flex-col items-center">
@@ -178,18 +244,36 @@ export default function Tools() {
                     <UploadCloud className="h-8 w-8 text-sky-400" />
                   </div>
                   <p className="text-xl font-bold text-white mb-2">Drop files to compress</p>
-                  <p className="text-sm text-slate-400 mb-8">Supports PNG, JPEG, WEBP</p>
+                  <p className="text-sm text-slate-400 mb-6">Supports PNG, JPEG, WEBP</p>
                   
-                  <label className="cursor-pointer rounded-full bg-white text-black px-8 py-3.5 text-sm font-bold transition hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                  <div className="mb-6 flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-400">
+                    <svg height="14" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="14" data-view-component="true" className="fill-current"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+                    100% Local & Secure. No Uploads.
+                  </div>
+
+                  <AnimatePresence>
+                    {uploadError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="mb-6 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2 text-sm text-rose-400"
+                      >
+                        {uploadError}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  
+                  <label className="cursor-pointer rounded-full bg-white text-black px-8 py-3.5 text-sm font-bold transition hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] focus-within:ring-2 focus-within:ring-sky-500 focus-within:ring-offset-2 focus-within:ring-offset-black">
                     Select Images
-                    <input type="file" accept="image/png,image/jpeg,image/webp" multiple className="sr-only" onChange={(e) => handleFileSelection(e.target.files)} />
+                    <input id="file-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple className="sr-only" onChange={(e) => handleFileSelection(e.target.files)} aria-label="Select images to compress" />
                   </label>
                 </div>
               </div>
 
               {/* Controls */}
               <div className="mt-8 space-y-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <label className="text-sm font-medium text-slate-300 uppercase tracking-wider">Output Format</label>
                     <div className="grid grid-cols-3 gap-3">
@@ -225,6 +309,30 @@ export default function Tools() {
                   </div>
                 </div>
 
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium text-slate-300 uppercase tracking-wider">Max Width (px)</label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 2048"
+                      value={maxWidth === '' ? '' : maxWidth}
+                      onChange={(e) => setMaxWidth(e.target.value === '' ? '' : Number(e.target.value))}
+                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+                    />
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium text-slate-300 uppercase tracking-wider">SEO Suffix</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. optimized-for-shopify"
+                      value={seoPrefix}
+                      onChange={(e) => setSeoPrefix(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
                 <AnimatePresence>
                   {files.length > 0 && (
                     <motion.div
@@ -239,17 +347,28 @@ export default function Tools() {
                           <button onClick={() => setFiles([])} className="text-xs text-rose-400 hover:text-rose-300">Clear All</button>
                         </div>
                         {files.map((file, idx) => (
-                          <div key={idx} className="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-                            <div className="flex items-center gap-3 overflow-hidden">
-                              <ImageIcon className="w-4 h-4 text-sky-400 shrink-0" />
+                          <div key={idx} className="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2 border border-white/5 overflow-hidden">
+                            <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0">
+                              <FileThumbnail file={file} />
                               <span className="text-sm text-slate-300 truncate">{file.name}</span>
                             </div>
-                            <button onClick={() => removeFile(idx)} className="text-slate-500 hover:text-white p-1">
+                            <button onClick={() => removeFile(idx)} className="text-slate-500 hover:text-white p-1 shrink-0 ml-2">
                               <X className="w-4 h-4" />
                             </button>
                           </div>
                         ))}
                       </div>
+
+                      {/* CRO Lead Capture for bulk uploads */}
+                      {files.length > 10 && (
+                        <div className="mt-4 p-4 rounded-xl border border-purple-500/30 bg-purple-500/10 text-sm">
+                          <p className="font-bold text-white mb-2">Wow, that&apos;s a lot of images!</p>
+                          <p className="text-slate-300 mb-3">Manually downloading these is slow. Want me to automate this across your entire Shopify store?</p>
+                          <a href="/#contact?subject=I need help automating my Shopify image optimization" className="inline-block bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                            Let&apos;s Talk Automation
+                          </a>
+                        </div>
+                      )}
 
                       <button
                         onClick={processImages}
@@ -291,7 +410,7 @@ export default function Tools() {
               ) : (
                 <div className="flex flex-col h-full">
                   {/* Results Header */}
-                  <div className="p-6 border-b border-white/10 flex flex-wrap gap-4 items-center justify-between bg-black/20">
+                  <div className="p-6 border-b border-white/10 flex flex-wrap gap-4 items-center justify-between bg-black/20" aria-live="polite">
                     <div>
                       <h3 className="text-xl font-bold text-white flex items-center gap-2">
                         <Check className="w-5 h-5 text-emerald-400" />
@@ -317,16 +436,16 @@ export default function Tools() {
                         <button
                           key={idx}
                           onClick={() => setSelectedPreview(stat)}
-                          className={`w-full text-left p-4 border-b border-white/5 transition-colors flex flex-col gap-2 ${
+                          className={`w-full text-left p-4 border-b border-white/5 transition-colors flex flex-col gap-2 overflow-hidden ${
                             selectedPreview?.newName === stat.newName 
                               ? 'bg-sky-500/10 border-l-2 border-l-sky-500' 
                               : 'hover:bg-white/5 border-l-2 border-l-transparent'
                           }`}
                         >
-                          <p className="text-sm font-medium text-slate-200 truncate">{stat.name}</p>
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-slate-500">{stat.finalSize}</span>
-                            <span className="text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded">-{stat.reduction}</span>
+                          <p className="text-sm font-medium text-slate-200 truncate w-full">{stat.name}</p>
+                          <div className="flex items-center justify-between text-xs w-full">
+                            <span className="text-slate-500 shrink-0">{stat.finalSize}</span>
+                            <span className="text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded shrink-0 ml-2">-{stat.reduction}</span>
                           </div>
                         </button>
                       ))}
@@ -337,34 +456,72 @@ export default function Tools() {
                       {selectedPreview ? (
                         <>
                           {/* Image Comparison Container */}
-                          <div className="flex-1 min-h-[300px] relative rounded-2xl border border-white/10 bg-black/50 overflow-hidden group flex items-center justify-center">
+                          <div className="flex-1 min-h-[300px] relative rounded-2xl border border-white/10 bg-black/50 overflow-hidden flex items-center justify-center">
                              
                              <div className="absolute inset-4 flex items-center justify-center">
-                                <div className="w-full h-full relative">
+                                <div 
+                                     className="w-full h-full relative cursor-ew-resize touch-none select-none"
+                                     onMouseDown={(e) => {
+                                        setIsDragging(true);
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                                        setSliderValue((x / rect.width) * 100);
+                                     }}
+                                     onMouseUp={() => setIsDragging(false)}
+                                     onMouseLeave={() => setIsDragging(false)}
+                                     onMouseMove={(e) => {
+                                        if (!isDragging) return;
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                                        setSliderValue((x / rect.width) * 100);
+                                     }}
+                                     onTouchStart={(e) => {
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const x = Math.max(0, Math.min(e.touches[0].clientX - rect.left, rect.width));
+                                        setSliderValue((x / rect.width) * 100);
+                                     }}
+                                     onTouchMove={(e) => {
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const x = Math.max(0, Math.min(e.touches[0].clientX - rect.left, rect.width));
+                                        setSliderValue((x / rect.width) * 100);
+                                     }}
+                                >
                                   {/* Original Image (Underneath) */}
                                   <img 
                                     src={selectedPreview.originalUrl} 
                                     alt="Original" 
-                                    className="absolute inset-0 w-full h-full object-contain opacity-40 group-hover:opacity-0 transition-opacity duration-500" 
+                                    className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
                                   />
                                   {/* Optimized Image (On Top) */}
                                   <img 
                                     src={selectedPreview.downloadUrl} 
                                     alt="Optimized" 
-                                    className="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-100 transition-opacity duration-500" 
+                                    className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+                                    style={{ clipPath: `polygon(0 0, ${sliderValue}% 0, ${sliderValue}% 100%, 0 100%)` }}
                                   />
+
+                                  {/* Slider Handle */}
+                                  <div 
+                                    className="absolute top-0 bottom-0 w-0.5 bg-white/50 pointer-events-none flex items-center justify-center z-20"
+                                    style={{ left: `${sliderValue}%` }}
+                                  >
+                                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotate-180"><path d="m15 18-6-6 6-6"/></svg>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                    </div>
+                                  </div>
                                   
                                   {/* Labels */}
-                                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-mono text-slate-300 border border-white/10 opacity-100 group-hover:opacity-0 transition-opacity z-10">
-                                    Original: {selectedPreview.originalSize}
-                                  </div>
-                                  <div className="absolute top-4 right-4 bg-sky-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-mono text-sky-300 border border-sky-500/30 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-mono text-slate-300 border border-white/10 z-10 pointer-events-none max-w-[40%] sm:max-w-xs truncate">
                                     Optimized: {selectedPreview.finalSize}
+                                  </div>
+                                  <div className="absolute top-4 right-4 bg-sky-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-mono text-sky-300 border border-sky-500/30 z-10 pointer-events-none max-w-[40%] sm:max-w-xs truncate">
+                                    Original: {selectedPreview.originalSize}
                                   </div>
                                   
                                   {/* Interaction Hint */}
-                                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-xs font-medium text-white shadow-xl opacity-100 group-hover:opacity-0 transition-opacity z-10 pointer-events-none">
-                                    Hover to view optimized image
+                                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-xs font-medium text-white shadow-xl z-10 pointer-events-none opacity-50">
+                                    Slide to compare
                                   </div>
                                 </div>
                              </div>
@@ -372,7 +529,7 @@ export default function Tools() {
 
                           {/* Action Bar for single file */}
                           <div className="mt-6 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
-                            <div className="flex gap-4 items-center text-sm font-mono">
+                            <div className="flex flex-wrap gap-4 items-center text-sm font-mono">
                               <div className="flex flex-col">
                                 <span className="text-slate-500">Reduction</span>
                                 <span className="text-emerald-400 font-bold text-lg">{selectedPreview.reduction}</span>

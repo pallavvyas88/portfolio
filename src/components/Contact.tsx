@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
 
@@ -9,6 +9,16 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const subject = params.get('subject');
+      if (subject) {
+        setFormData(prev => ({ ...prev, message: subject }));
+      }
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,7 +53,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-32 bg-white dark:bg-slate-950 overflow-hidden">
+    <section id="contact" className="relative py-20 md:py-24 bg-white dark:bg-slate-950 overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-sky-100 dark:bg-sky-900/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[800px] h-[800px] bg-fuchsia-100 dark:bg-fuchsia-900/10 rounded-full blur-[120px] pointer-events-none" />

@@ -35,7 +35,7 @@ const itemVariants: Variants = {
 
 export default function About() {
   return (
-    <section id="about" className="relative py-32 bg-slate-50 dark:bg-slate-900/50 overflow-hidden">
+    <section id="about" className="relative py-20 md:py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden">
       {/* Background Accents */}
       <div className="absolute top-0 right-0 -translate-y-12 translate-x-1/3 w-[800px] h-[800px] bg-sky-100/50 dark:bg-sky-900/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/3 w-[600px] h-[600px] bg-fuchsia-100/50 dark:bg-fuchsia-900/10 rounded-full blur-3xl pointer-events-none" />

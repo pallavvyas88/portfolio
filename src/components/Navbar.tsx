@@ -3,19 +3,22 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
-  { name: 'Home', href: '#hero' },
-  { name: 'About', href: '#about' },
-  { name: 'Portfolio', href: '#portfolio' },
-  { name: 'Tools', href: '#tools' },
-  { name: 'Services', href: '#services' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '/#hero' },
+  { name: 'About', href: '/#about' },
+  { name: 'Portfolio', href: '/#portfolio' },
+  { name: 'Tools', href: '/tools' },
+  { name: 'Services', href: '/#services' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -23,11 +26,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const getHref = (href: string) => {
+    if (href === '/tools') return href;
+    return pathname === '/' ? href.replace('/', '') : href;
+  };
+
   return (
     <motion.nav 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+      // initial={{ y: -100 }}
+      // animate={{ y: 0 }}
+      // transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled 
           ? 'bg-black/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]'
@@ -44,40 +52,41 @@ export default function Navbar() {
       <div className="container relative z-10 mx-auto flex items-center justify-between px-6 py-5">
         
           
-        <a href="#hero" className="relative group flex items-center gap-3">
-          <div className="relative h-10 w-10 overflow-hidden rounded-xl bg-white/5 border border-white/10 p-1.5 transition-all group-hover:border-sky-500/50 group-hover:shadow-[0_0_20px_rgba(56,189,248,0.2)]">
+        <Link href="/" className="relative group flex items-center gap-3">
+          <div className="relative h-10 w-10 overflow-hidden rounded-xl bg-white/5   transition-all group-hover:border-sky-500/50 group-hover:shadow-[0_0_20px_rgba(56,189,248,0.2)]">
             <img 
               src="/PV-DARK-final.svg" 
               alt="Pallav Vyas Logo" 
               className="h-full w-full object-contain"
             />
           </div>
-        </a>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-fuchsia-500 group-hover:opacity-80 transition-opacity">  PALLAV.DEV</span>
+        </Link>
 
-        <a href="#hero" className="text-xl font-black tracking-widest text-white uppercase group flex items-center gap-1">
-          PALLAV<span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-fuchsia-500 group-hover:opacity-80 transition-opacity">.DEV</span>
+        <a href="#hero" className="">
+        
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              href={getHref(item.href)}
               className="text-sm font-medium text-slate-300 transition-colors hover:text-white relative group"
             >
               {item.name}
               <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-400 to-fuchsia-500 transition-all duration-300 group-hover:w-full" />
-            </a>
+            </Link>
           ))}
-          <a
-            href="#contact"
+          <Link
+            href={getHref('/#contact')}
             className="group relative inline-flex items-center justify-center rounded-full bg-white text-black px-6 py-2.5 text-sm font-bold transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] ml-4 overflow-hidden"
           >
             <span className="relative z-10 flex items-center gap-2">
               Hire Me
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </span>
-          </a>
+          </Link>
         </div>
 
         <button
@@ -99,22 +108,22 @@ export default function Navbar() {
           >
             <div className="px-6 py-6 flex flex-col gap-5">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  href={getHref(item.href)}
                   onClick={() => setIsOpen(false)}
                   className="block text-lg font-medium text-slate-300 transition hover:text-sky-400"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
-              <a
-                href="#contact"
+              <Link
+                href={getHref('/#contact')}
                 onClick={() => setIsOpen(false)}
                 className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-sky-500 to-fuchsia-500 px-5 py-4 text-base font-bold text-white transition hover:opacity-90"
               >
                 Hire Me
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

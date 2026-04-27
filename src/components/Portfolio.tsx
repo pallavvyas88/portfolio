@@ -140,7 +140,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="relative py-32 bg-white dark:bg-slate-950 overflow-hidden">
+    <section id="portfolio" className="relative py-20 md:py-24 bg-white dark:bg-slate-950 overflow-hidden">
       {/* Abstract Backgrounds */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[500px] bg-gradient-to-b from-slate-50 dark:from-slate-900 to-transparent" />
       <div className="pointer-events-none absolute top-1/4 -right-1/4 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.05)_0%,transparent_70%)] blur-3xl" />
