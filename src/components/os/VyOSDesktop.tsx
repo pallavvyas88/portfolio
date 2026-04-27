@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useOSStore, type AppId } from '@/store/osStore';
 import BootSequence from '@/components/os/BootSequence';
@@ -21,15 +21,20 @@ const appConfig: Record<AppId, { icon: string; component: React.ReactNode }> = {
   logiwa: { icon: '🔗', component: <LogiwaApp /> },
 };
 
+const windowSizes: Record<AppId, { width: number; height: number }> = {
+  terminal: { width: 600, height: 500 },
+  about: { width: 600, height: 500 },
+  portfolio: { width: 800, height: 550 },
+  neural: { width: 750, height: 550 },
+  contact: { width: 600, height: 500 },
+  logiwa: { width: 600, height: 500 },
+};
+
 export default function VyOSDesktop() {
   const { 
     windows, 
-    activeWindow, 
     bootSequenceComplete,
-    openApp, 
-    closeApp, 
-    minimizeApp, 
-    focusApp 
+    openApp
   } = useOSStore();
 
   // Keyboard shortcuts
@@ -95,24 +100,14 @@ export default function VyOSDesktop() {
             if (!window.isOpen || window.isMinimized) return null;
             
             const config = appConfig[id as AppId];
-            const isActive = activeWindow === id;
+            const size = windowSizes[id as AppId];
             
             return (
               <Window
                 key={id}
                 id={id as AppId}
-                title={window.title}
-                icon={<span>{config.icon}</span>}
-                isActive={isActive}
-                isMinimized={window.isMinimized}
-                position={{ x: 50 + (parseInt(id) * 30), y: 50 + (parseInt(id) * 30) }}
-                size={{ 
-                  width: id === 'portfolio' ? 800 : id === 'neural' ? 750 : 600, 
-                  height: id === 'portfolio' || id === 'neural' ? 550 : 500 
-                }}
-                onClose={() => closeApp(id as AppId)}
-                onMinimize={() => minimizeApp(id as AppId)}
-                onFocus={() => focusApp(id as AppId)}
+                defaultWidth={size.width}
+                defaultHeight={size.height}
               >
                 {config.component}
               </Window>
@@ -122,7 +117,7 @@ export default function VyOSDesktop() {
       </div>
 
       {/* Dock */}
-      <Dock activeApp={activeWindow} onAppClick={(id) => openApp(id as AppId)} />
+      <Dock />
     </main>
   );
 }
