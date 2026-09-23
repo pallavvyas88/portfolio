@@ -1,62 +1,78 @@
 import Link from 'next/link';
 import { toolsConfig } from '@/config/tools';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { WashiTape } from '@/components/doodles/WashiTape';
+import { DoodleSquiggle } from '@/components/doodles/DoodleSquiggle';
 
 export default function ToolsDirectoryPage() {
   return (
-    <div className="container mx-auto px-4 max-w-7xl">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
       {/* Hero Section */}
-      <section className="text-center py-16 md:py-20">
-        <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-slate-900 dark:text-white">
-          Developer <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-600 dark:from-sky-400 dark:to-purple-500">Tools</span>
+      <section className="text-center py-12 sm:py-16 relative">
+        <span className="font-doodle text-2xl text-[var(--coral)] block -rotate-1 font-bold mb-2">
+          Engineered for Performance &bull; Zero Server Uploads
+        </span>
+        <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-4 text-[var(--ink)] relative inline-block">
+          Shopify Developer Tools
+          <DoodleSquiggle color="var(--coral)" className="-bottom-2.5 left-0 w-full" />
         </h1>
-        <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-          Your Shopify store is slow because of unoptimized assets and hidden bottlenecks. 
-          Use these free tools to compress images, debug workflows, and boost conversions.
+        <p className="text-base sm:text-lg text-[var(--ink-muted)] max-w-2xl mx-auto mb-8 leading-relaxed">
+          High-performance stores shouldn&apos;t be bogged down by uncompressed assets or hidden bottlenecks. Use these free in-browser utilities to compress images, audit scripts, and boost conversions.
         </p>
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm text-slate-700 dark:text-slate-300 font-medium">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-[var(--ink)] font-bold">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Free to use
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Free to use
           </div>
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Built for Shopify
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Built for Shopify Plus
           </div>
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Secure & Private
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 100% Local In-Browser Processing
           </div>
         </div>
       </section>
 
       {/* Tools Grid */}
-      <section className="py-8 md:py-12">
+      <section className="py-8 sm:py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {toolsConfig.map((tool) => (
+          {toolsConfig.map((tool, idx) => (
             <div 
               key={tool.id} 
-              className={`relative group rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-xl p-8 shadow-sm hover:shadow-xl dark:shadow-none transition-all duration-300 ${
-                tool.isComingSoon ? 'opacity-70' : 'hover:-translate-y-2 hover:border-sky-500/40 dark:hover:shadow-[0_0_30px_rgba(56,189,248,0.15)]'
+              className={`doodle-box p-7 sm:p-8 flex flex-col justify-between relative group bg-[var(--paper)] ${
+                tool.isComingSoon ? 'opacity-70' : 'hover:border-[var(--coral)]'
               }`}
             >
+              {idx === 0 && (
+                <WashiTape width="w-24 sm:w-28" rotate="-rotate-2" className="-top-3 right-6" />
+              )}
+
               {tool.isComingSoon && (
-                <div className="absolute top-4 right-4 bg-slate-100 dark:bg-white/10 text-xs font-bold px-3 py-1 rounded-full text-slate-600 dark:text-slate-300">
-                  Coming Soon
+                <div className="absolute top-4 right-4 bg-slate-100 dark:bg-slate-800 text-xs font-black px-3 py-1 rounded-full text-[var(--ink-muted)] border border-[var(--border-hand)]">
+                  In Development
                 </div>
               )}
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-sky-500/20 to-purple-500/20 flex items-center justify-center border border-slate-200 dark:border-white/10 mb-6">
-                <tool.icon className="w-7 h-7 text-sky-500 dark:text-sky-400" />
+
+              <div>
+                <div className="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-950/60 border border-orange-300 dark:border-orange-800 flex items-center justify-center text-[var(--coral)] mb-5 group-hover:scale-105 transition-transform">
+                  <tool.icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-black text-[var(--ink)] mb-2.5">{tool.title}</h3>
+                <p className="text-xs sm:text-sm text-[var(--ink-muted)] mb-8 min-h-[70px] leading-relaxed">
+                  {tool.description}
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">{tool.title}</h3>
-              <p className="text-slate-600 dark:text-slate-400 mb-8 min-h-[80px]">
-                {tool.description}
-              </p>
               
               {tool.isComingSoon ? (
-                <button disabled className="w-full py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-white/5 text-slate-400 dark:text-slate-500 font-semibold cursor-not-allowed">
-                  In Development
+                <button disabled className="w-full py-3 rounded-xl border-2 border-[var(--border-hand)] bg-slate-100 dark:bg-slate-800 text-[var(--ink-muted)] text-xs font-bold cursor-not-allowed">
+                  Coming Soon
                 </button>
               ) : (
-                <Link href={`/tools/${tool.slug}`} className="w-full py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-black font-bold flex items-center justify-center gap-2 transition hover:bg-sky-500 hover:text-white dark:hover:bg-sky-400 dark:hover:text-black hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] group-hover:bg-sky-500 dark:group-hover:bg-sky-400">
-                  {tool.ctaText} <ArrowRight className="w-4 h-4" />
+                <Link 
+                  href={`/tools/${tool.slug}`} 
+                  className="w-full doodle-btn py-3.5 bg-[var(--coral)] text-white text-xs sm:text-sm font-black flex items-center justify-center gap-2 hover:bg-[var(--coral-hover)] transition-colors"
+                >
+                  <span>{tool.ctaText}</span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               )}
             </div>
@@ -65,70 +81,92 @@ export default function ToolsDirectoryPage() {
       </section>
 
       {/* Social Proof & Credibility */}
-      <section className="py-12 mt-4 md:mt-8">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">Trusted by Shopify Merchants</h2>
-          <p className="text-slate-600 dark:text-slate-400">Join other high-performance stores optimizing their tech stack.</p>
+      <section className="py-12 sm:py-16">
+        <div className="text-center mb-10">
+          <span className="font-doodle text-xl text-[var(--coral)] block font-bold">
+            Real Merchant Impact
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-black text-[var(--ink)]">
+            Trusted by Shopify Merchants & Engineers
+          </h2>
+          <p className="text-xs sm:text-sm text-[var(--ink-muted)] mt-1.5">
+            Local browser processing &bull; Zero analytics bloat &bull; Instant optimization
+          </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4">
-          <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-sm backdrop-blur-xl">
-            <div className="flex text-amber-400 mb-4">
-              {[...Array(5)].map((_, i) => <span key={i}>★</span>)}
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="doodle-box p-6 bg-[var(--paper)]">
+            <div className="flex text-amber-400 mb-3 text-lg">
+              ★★★★★
             </div>
-            <p className="text-slate-700 dark:text-slate-300 mb-4 text-sm">&quot;The Neural Image Engine saved us hours of manual compression. Our homepage loads 2.3s faster now.&quot;</p>
-            <div className="text-slate-900 dark:text-white font-bold text-sm">Sarah J.</div>
-            <div className="text-slate-500 text-xs">E-commerce Director</div>
+            <p className="text-[var(--ink)] mb-4 text-xs sm:text-sm leading-relaxed font-medium">
+              &quot;The client-side WebP compression cut our catalog imagery by 68%. Our mobile PDPs now load under a second.&quot;
+            </p>
+            <div className="text-[var(--ink)] font-extrabold text-xs">Sarah J.</div>
+            <div className="text-[var(--ink-muted)] text-[11px]">E-commerce Director &bull; Apparel</div>
           </div>
           
-          <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-sm backdrop-blur-xl">
-             <div className="flex text-amber-400 mb-4">
-              {[...Array(5)].map((_, i) => <span key={i}>★</span>)}
+          <div className="doodle-box p-6 bg-[var(--paper)]">
+             <div className="flex text-amber-400 mb-3 text-lg">
+              ★★★★★
             </div>
-            <p className="text-slate-700 dark:text-slate-300 mb-4 text-sm">&quot;Finally a tool built specifically with Shopify&apos;s architecture in mind. It handles our massive catalogs flawlessly.&quot;</p>
-            <div className="text-slate-900 dark:text-white font-bold text-sm">Mark T.</div>
-            <div className="text-slate-500 text-xs">Lead Developer</div>
+            <p className="text-[var(--ink)] mb-4 text-xs sm:text-sm leading-relaxed font-medium">
+              &quot;Finally a tool that respects file privacy without uploading product launch assets to external cloud servers.&quot;
+            </p>
+            <div className="text-[var(--ink)] font-extrabold text-xs">Mark T.</div>
+            <div className="text-[var(--ink-muted)] text-[11px]">Shopify Plus Lead Developer</div>
           </div>
           
-          <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-sm backdrop-blur-xl flex flex-col justify-center items-center text-center">
-             <div className="w-12 h-12 bg-slate-100 dark:bg-[#24292e] rounded-full flex items-center justify-center mb-4 border border-slate-200 dark:border-white/10">
-               <svg height="24" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true" className="fill-slate-900 dark:fill-white"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+          <div className="doodle-box p-6 bg-[var(--paper)] flex flex-col justify-between">
+             <div>
+               <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-950/70 border border-emerald-400 rounded-xl flex items-center justify-center mb-3 text-emerald-600 dark:text-emerald-400 font-black">
+                 🔒
+               </div>
+               <p className="text-[var(--ink)] text-sm font-extrabold mb-1">100% Client-Side</p>
+               <p className="text-[var(--ink-muted)] text-xs leading-relaxed">
+                 All compression happens in your browser WebAssembly sandbox. No cookies, no server storage, zero data retention.
+               </p>
              </div>
-             <p className="text-slate-900 dark:text-slate-300 text-sm font-medium mb-1">Open Source & Secure</p>
-             <p className="text-slate-500 text-xs">All processing runs locally in your browser. No files are ever stored on our servers.</p>
           </div>
         </div>
       </section>
 
       {/* Trust & CRO Lead Capture */}
-      <section className="py-20 md:py-24 mt-12 border-t border-slate-200 dark:border-white/10 text-center relative overflow-hidden rounded-[3rem] bg-gradient-to-b from-slate-100 to-transparent dark:from-white/5 dark:to-transparent">
-         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.06)_0%,transparent_70%)] pointer-events-none" />
-         <div className="relative z-10 max-w-4xl mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
-              Want this level of optimization across your <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-600 dark:from-sky-400 dark:to-purple-500">entire store?</span>
+      <section className="py-16 sm:py-20 mt-8 mb-12">
+        <div className="doodle-box p-8 sm:p-14 relative text-center bg-amber-50/40 dark:bg-[#111620]">
+          <WashiTape width="w-32" rotate="-rotate-2" className="-top-3 left-1/2 -translate-x-1/2" />
+
+          <div className="max-w-2xl mx-auto">
+            <span className="font-doodle text-2xl text-[var(--coral)] block font-bold mb-1">
+              Need End-To-End Store Optimization?
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-[var(--ink)] mb-4">
+              Get a Surgical Speed & Architecture Audit
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              I help Shopify Plus brands hit 90+ Lighthouse scores, reduce bounce rates, and significantly improve their conversion rates through deep technical optimization.
+            <p className="text-sm sm:text-base text-[var(--ink-muted)] mb-8 leading-relaxed">
+              I audit Shopify Plus codebases, eliminate bloat apps, and guarantee 90+ mobile Core Web Vitals with fixed-scope sprints.
             </p>
             
-            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-12">
-               <div className="bg-white dark:bg-black/40 border border-slate-200 dark:border-white/5 p-6 rounded-2xl shadow-xs">
-                  <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">70%</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Average Image Size Reduction</div>
-               </div>
-               <div className="bg-white dark:bg-black/40 border border-slate-200 dark:border-white/5 p-6 rounded-2xl shadow-xs">
-                  <div className="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-2">40%</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Improved Load Speed</div>
-               </div>
+            <div className="grid sm:grid-cols-2 gap-4 max-w-lg mx-auto mb-8 text-left">
+              <div className="p-4 rounded-xl border-2 border-[var(--border-dark)] bg-[var(--paper)]">
+                <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">70%</div>
+                <div className="text-xs text-[var(--ink-muted)] font-bold">Average Payload Drop</div>
+              </div>
+              <div className="p-4 rounded-xl border-2 border-[var(--border-dark)] bg-[var(--paper)]">
+                <div className="text-2xl font-black text-[var(--coral)]">0.7s</div>
+                <div className="text-xs text-[var(--ink-muted)] font-bold">Target Mobile LCP</div>
+              </div>
             </div>
 
             <Link
               href="/#contact"
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-[0_0_30px_rgba(56,189,248,0.3)]"
+              className="doodle-btn inline-flex items-center gap-2 bg-[var(--coral)] text-white px-8 py-4 font-black text-sm uppercase tracking-wider hover:bg-[var(--coral-hover)]"
             >
-              Let&apos;s Optimize Your Store <ArrowRight className="w-5 h-5" />
+              <span>Book Store Audit</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
-         </div>
+          </div>
+        </div>
       </section>
     </div>
   );

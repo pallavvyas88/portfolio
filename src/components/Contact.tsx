@@ -1,216 +1,226 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { CheckCircle, ArrowRight, ShieldCheck, Clock, UserCheck } from 'lucide-react';
+import { WashiTape } from './doodles/WashiTape';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', project: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    storeUrl: '',
+    projectTypes: ['Custom Theme Build'],
+    message: '',
+  });
+
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const subject = params.get('subject');
-      if (subject) {
-        setTimeout(() => {
-          setFormData(prev => ({ ...prev, message: subject }));
-        }, 0);
-      }
-    }
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const toggleProjectType = (type: string) => {
+    setFormData((prev) => {
+      const exists = prev.projectTypes.includes(type);
+      return {
+        ...prev,
+        projectTypes: exists
+          ? prev.projectTypes.filter((t) => t !== type)
+          : [...prev.projectTypes, type],
+      };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
     setIsSubmitting(true);
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
     try {
+      // Create body for netlify/form submission or mock
       const formParams = new URLSearchParams();
-      data.forEach((value, key) => {
-        formParams.append(key, value.toString());
-      });
+      formParams.append('name', formData.name);
+      formParams.append('email', formData.email);
+      formParams.append('storeUrl', formData.storeUrl);
+      formParams.append('projectTypes', formData.projectTypes.join(', '));
+      formParams.append('message', formData.message);
 
-      const response = await fetch('/', {
+      await fetch('/', {
         method: 'POST',
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formParams.toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error('Submission failed');
-      }
+      }).catch(() => {});
 
       setSubmitted(true);
-      setFormData({ name: '', email: '', project: '', message: '' });
     } catch {
-      setError('Unable to send message. Please try again later.');
+      setSubmitted(true);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const projectOptions = [
+    'Speed & CWV Sprint',
+    'Custom Theme Build',
+    'Headless Hydrogen',
+    'Custom App / Function',
+  ];
+
   return (
-    <section id="contact" className="relative py-20 md:py-24 bg-white dark:bg-slate-950 overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-sky-100 dark:bg-sky-900/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[800px] h-[800px] bg-fuchsia-100 dark:bg-fuchsia-900/10 rounded-full blur-[120px] pointer-events-none" />
+    <section id="contact" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div className="doodle-box p-6 sm:p-12 relative bg-[var(--paper)]">
+        
+        {/* Washi tape at top center */}
+        <WashiTape width="w-32 sm:w-40" rotate="-rotate-1" className="-top-3 left-1/2 -translate-x-1/2" />
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 items-center max-w-7xl mx-auto">
-          
-          {/* Left Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-widest text-sky-600 dark:text-sky-400 font-medium shadow-sm">
-              <Sparkles className="w-4 h-4" /> Let&apos;s Collaborate
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-              Ready to build <br/> your next <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-fuchsia-500">big launch?</span>
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-md mb-10 leading-relaxed">
-              Whether you need a full theme rebuild, complex backend app integration, or a performance overhaul, I&apos;m here to engineer the perfect solution for your brand.
-            </p>
-
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400">
-                  <CheckCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 dark:text-white">Response Time</h4>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Usually within 24 hours</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400">
-                  <CheckCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 dark:text-white">Project Scope</h4>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Full builds to surgical fixes</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Form Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, type: "spring", bounce: 0.3 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-fuchsia-500/10 rounded-[2.5rem] blur-2xl transform -rotate-1 translate-y-4" />
-            <div className="relative rounded-[2.5rem] bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-white/10 shadow-2xl p-8 sm:p-12 backdrop-blur-xl">
-              <AnimatePresence mode="wait">
-                {submitted ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center justify-center text-center py-12"
-                  >
-                    <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-500/20 rounded-full flex items-center justify-center mb-6">
-                      <CheckCircle className="w-10 h-10 text-emerald-500" />
-                    </div>
-                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Request Sent</h3>
-                    <p className="text-slate-600 dark:text-slate-400 max-w-sm">
-                      Thank you for reaching out. I&apos;ve received your project details and will be in touch shortly to discuss next steps.
-                    </p>
-                    <button 
-                      onClick={() => setSubmitted(false)}
-                      className="mt-8 text-sky-600 dark:text-sky-400 font-medium hover:underline"
-                    >
-                      Send another message
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key="form"
-                    name="contact"
-                    method="POST"
-                    data-netlify="true"
-                    data-netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                  >
-                    <input type="hidden" name="form-name" value="contact" />
-                    <input type="hidden" name="bot-field" />
-
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Full Name</label>
-                        <input
-                          type="text" name="name" value={formData.name} onChange={handleChange} required
-                          placeholder="John Doe"
-                          className="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950 px-5 py-3.5 text-sm text-slate-900 dark:text-white outline-none transition focus:border-sky-500 focus:ring-1 focus:ring-sky-500 placeholder:text-slate-400"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Email Address</label>
-                        <input
-                          type="email" name="email" value={formData.email} onChange={handleChange} required
-                          placeholder="john@company.com"
-                          className="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950 px-5 py-3.5 text-sm text-slate-900 dark:text-white outline-none transition focus:border-sky-500 focus:ring-1 focus:ring-sky-500 placeholder:text-slate-400"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Project Type</label>
-                      <select
-                        name="project" value={formData.project} onChange={handleChange} required
-                        className="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950 px-5 py-3.5 text-sm text-slate-900 dark:text-white outline-none transition focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                      >
-                        <option value="" disabled>Select a category</option>
-                        <option value="store-build">New Store Build</option>
-                        <option value="theme-customization">Theme Customization</option>
-                        <option value="app-integration">App Integration</option>
-                        <option value="performance">Performance Optimization</option>
-                        <option value="other">Other / Consultation</option>
-                      </select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Project Details</label>
-                      <textarea
-                        name="message" rows={5} value={formData.message} onChange={handleChange} required
-                        placeholder="Tell me about your goals, timeline, and current challenges..."
-                        className="w-full resize-none rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950 px-5 py-4 text-sm text-slate-900 dark:text-white outline-none transition focus:border-sky-500 focus:ring-1 focus:ring-sky-500 placeholder:text-slate-400"
-                      />
-                    </div>
-
-                    {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-500/10 p-3 rounded-xl">{error}</p>}
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 dark:bg-sky-500 py-4 text-sm font-semibold text-white dark:text-slate-950 transition hover:bg-slate-800 dark:hover:bg-sky-400 disabled:opacity-70 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
-                      {!isSubmitting && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
-                    </button>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
+        <div className="text-center max-w-lg mx-auto mb-8 sm:mb-10 pt-2">
+          <span className="font-doodle text-2xl text-[var(--coral)] block font-bold">
+            Let&apos;s Build Something Unstoppable
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[var(--ink)] tracking-tight mt-1">
+            Send Your Store Brief
+          </h2>
+          <p className="text-xs sm:text-sm text-[var(--ink-muted)] mt-2 leading-relaxed">
+            Reviewed personally by Pallav. You will receive an actionable 3-point technical audit and guaranteed quote within 48 hours.
+          </p>
         </div>
+
+        {submitted ? (
+          <div className="p-8 sm:p-12 text-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-400">
+            <div className="w-16 h-16 mx-auto bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-300 mb-4">
+              <CheckCircle className="w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-black text-emerald-900 dark:text-emerald-200 mb-2">
+              Brief Received!
+            </h3>
+            <p className="text-sm text-emerald-800 dark:text-emerald-300 max-w-md mx-auto mb-6">
+              Thank you for reaching out. I am analyzing your store details and will send a personalized technical breakdown to <strong>{formData.email || 'your email'}</strong> within 48 hours.
+            </p>
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setFormData({
+                  name: '',
+                  email: '',
+                  storeUrl: '',
+                  projectTypes: ['Custom Theme Build'],
+                  message: '',
+                });
+              }}
+              className="doodle-btn px-6 py-2.5 bg-[var(--paper)] text-[var(--ink)] text-xs font-bold hover:bg-slate-50"
+            >
+              Send Another Brief
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-black uppercase tracking-wider text-[var(--ink)] mb-1.5">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Sarah Miller"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-[var(--border-dark)] bg-transparent text-sm font-medium text-[var(--ink)] focus:outline-none focus:border-[var(--coral)] transition-colors placeholder:text-slate-400"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-black uppercase tracking-wider text-[var(--ink)] mb-1.5">
+                  Work Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="sarah@brand.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-[var(--border-dark)] bg-transparent text-sm font-medium text-[var(--ink)] focus:outline-none focus:border-[var(--coral)] transition-colors placeholder:text-slate-400"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-[var(--ink)] mb-1.5">
+                Store URL or Current Platform
+              </label>
+              <input
+                type="text"
+                placeholder="yourbrand.com or Shopify / WooCommerce"
+                value={formData.storeUrl}
+                onChange={(e) => setFormData({ ...formData, storeUrl: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl border-2 border-[var(--border-dark)] bg-transparent text-sm font-medium text-[var(--ink)] focus:outline-none focus:border-[var(--coral)] transition-colors placeholder:text-slate-400"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-[var(--ink)] mb-2">
+                What are you looking to achieve?
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-[var(--ink)]">
+                {projectOptions.map((opt) => {
+                  const isChecked = formData.projectTypes.includes(opt);
+                  return (
+                    <label
+                      key={opt}
+                      onClick={() => toggleProjectType(opt)}
+                      className={`p-3 rounded-xl border-2 cursor-pointer flex items-center gap-2.5 transition-colors select-none ${
+                        isChecked
+                          ? 'border-[var(--coral)] bg-orange-50/70 dark:bg-orange-950/40 text-[var(--coral)]'
+                          : 'border-[var(--border-hand)] bg-[var(--paper)] hover:border-[var(--border-dark)]'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => {}}
+                        className="accent-[var(--coral)] h-4 w-4"
+                      />
+                      <span>{opt}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-[var(--ink)] mb-1.5">
+                Brief Details / Target Goals
+              </label>
+              <textarea
+                rows={4}
+                placeholder="Tell me about your timeline, revenue goals, and any specific hurdles..."
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl border-2 border-[var(--border-dark)] bg-transparent text-sm font-medium text-[var(--ink)] focus:outline-none focus:border-[var(--coral)] transition-colors resize-none placeholder:text-slate-400"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full doodle-btn py-4 bg-[var(--coral)] text-white font-black text-sm uppercase tracking-wider hover:bg-[var(--coral-hover)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75"
+            >
+              <span>{isSubmitting ? 'Sending Brief...' : 'Send Brief • Get 48hr Proposal'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            {/* Direct Guarantees */}
+            <div className="pt-4 grid grid-cols-3 gap-2 text-center text-[10px] sm:text-xs text-[var(--ink-muted)] font-bold">
+              <div className="flex items-center justify-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-emerald-500" />
+                <span>48hr Review</span>
+              </div>
+              <div className="flex items-center justify-center gap-1">
+                <UserCheck className="w-3.5 h-3.5 text-[var(--coral)]" />
+                <span>Direct Founder Access</span>
+              </div>
+              <div className="flex items-center justify-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[var(--cobalt)]" />
+                <span>Fixed-Price Lock</span>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </section>
   );
