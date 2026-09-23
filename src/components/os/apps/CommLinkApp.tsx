@@ -79,7 +79,7 @@ export default function CommLinkApp() {
             >
               <CheckCircle className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
               <p className="text-white font-medium mb-1">Transmission Complete</p>
-              <p className="text-sm text-slate-400">I'll respond within 24 hours.</p>
+              <p className="text-sm text-slate-400">I&apos;ll respond within 24 hours.</p>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3">

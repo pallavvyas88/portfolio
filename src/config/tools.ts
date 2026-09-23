@@ -1,11 +1,12 @@
 import { Layers, Zap, Search } from 'lucide-react';
+import React from 'react';
 
 export type Tool = {
   id: string;
   slug: string;
   title: string;
   description: string;
-  icon: any; // Using any for lucide-react icon component type simplicity
+  icon: React.ComponentType<{ className?: string }>;
   ctaText: string;
   isComingSoon?: boolean;
 };

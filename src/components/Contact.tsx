@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
+import { CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', project: '', message: '' });
@@ -15,7 +15,9 @@ export default function Contact() {
       const params = new URLSearchParams(window.location.search);
       const subject = params.get('subject');
       if (subject) {
-        setFormData(prev => ({ ...prev, message: subject }));
+        setTimeout(() => {
+          setFormData(prev => ({ ...prev, message: subject }));
+        }, 0);
       }
     }
   }, []);
@@ -33,10 +35,15 @@ export default function Contact() {
     const data = new FormData(form);
 
     try {
+      const formParams = new URLSearchParams();
+      data.forEach((value, key) => {
+        formParams.append(key, value.toString());
+      });
+
       const response = await fetch('/', {
         method: 'POST',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(data as any).toString(),
+        body: formParams.toString(),
       });
 
       if (!response.ok) {
@@ -45,7 +52,7 @@ export default function Contact() {
 
       setSubmitted(true);
       setFormData({ name: '', email: '', project: '', message: '' });
-    } catch (err) {
+    } catch {
       setError('Unable to send message. Please try again later.');
     } finally {
       setIsSubmitting(false);
@@ -68,14 +75,14 @@ export default function Contact() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-widest text-primary dark:text-sky-400 font-medium shadow-sm">
-              <Sparkles className="w-4 h-4" /> Let's Collaborate
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-widest text-sky-600 dark:text-sky-400 font-medium shadow-sm">
+              <Sparkles className="w-4 h-4" /> Let&apos;s Collaborate
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
               Ready to build <br/> your next <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-fuchsia-500">big launch?</span>
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 max-w-md mb-10 leading-relaxed">
-              Whether you need a full theme rebuild, complex backend app integration, or a performance overhaul, I'm here to engineer the perfect solution for your brand.
+              Whether you need a full theme rebuild, complex backend app integration, or a performance overhaul, I&apos;m here to engineer the perfect solution for your brand.
             </p>
 
             <div className="space-y-6">
@@ -123,7 +130,7 @@ export default function Contact() {
                     </div>
                     <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Request Sent</h3>
                     <p className="text-slate-600 dark:text-slate-400 max-w-sm">
-                      Thank you for reaching out. I've received your project details and will be in touch shortly to discuss next steps.
+                      Thank you for reaching out. I&apos;ve received your project details and will be in touch shortly to discuss next steps.
                     </p>
                     <button 
                       onClick={() => setSubmitted(false)}
