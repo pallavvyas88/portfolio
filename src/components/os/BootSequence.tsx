@@ -26,7 +26,7 @@ export default function BootSequence() {
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [scanResults, setScanResults] = useState<{ score: number; issues: Array<{ severity: string; label: string; detail: string }> } | null>(null);
+  const [scanResults, setScanResults] = useState<{ url?: string; score: number; issues: Array<{ severity: string; label: string; value?: string; detail: string }> } | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const { openApp, setBootSequenceComplete } = useOSStore();
 
