@@ -153,7 +153,7 @@ export default function Portfolio() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-[0.25em] text-primary dark:text-sky-400 font-medium">
+          <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-[0.25em] text-sky-600 dark:text-sky-400 font-medium">
             Portfolio Highlights
           </div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-6xl max-w-4xl mx-auto">

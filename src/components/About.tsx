@@ -49,7 +49,7 @@ export default function About() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-widest text-primary dark:text-sky-400 mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-widest text-sky-600 dark:text-sky-400 font-medium mb-6">
               About The Developer
             </div>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
@@ -57,7 +57,7 @@ export default function About() {
             </h2>
             <div className="space-y-6 text-lg text-slate-600 dark:text-slate-300">
               <p>
-                I am Pallav Vyas, a senior Shopify Developer dedicated to building high-end, scalable, and conversion-optimized e-commerce platforms. I don't just build stores; I engineer robust technical solutions that drive measurable business growth.
+                I am Pallav Vyas, a senior Shopify Developer dedicated to building high-end, scalable, and conversion-optimized e-commerce platforms. I don&apos;t just build stores; I engineer robust technical solutions that drive measurable business growth.
               </p>
               <p>
                 With a deep understanding of the Shopify ecosystem—from complex Liquid architectures and Headless Storefront APIs to intricate App Integrations—I bridge the gap between stunning design and flawless backend execution.

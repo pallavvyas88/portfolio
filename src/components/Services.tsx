@@ -32,7 +32,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="relative py-20 md:py-24 bg-slate-900 dark:bg-black overflow-hidden text-white">
+    <section id="services" className="relative py-20 md:py-24 bg-slate-50 dark:bg-black overflow-hidden text-slate-900 dark:text-white transition-colors duration-300">
       {/* Ambient Glow */}
       <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.1),transparent_60%)]" />
       
@@ -45,17 +45,17 @@ export default function Services() {
             viewport={{ once: true, margin: "-100px" }}
             className="sticky lg:top-32 top-0"
           >
-            <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-[0.25em] text-sky-400 font-medium">
+            <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-[0.25em] text-sky-600 dark:text-sky-400 font-medium">
               Expertise
             </div>
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl mb-6">
+            <h2 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl mb-6">
               Engineering <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-500">Excellence.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-blue-600 to-fuchsia-500 dark:from-slate-200 dark:to-slate-500">Excellence.</span>
             </h2>
-            <p className="text-lg text-slate-400 max-w-md mb-8">
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-md mb-8">
               Delivering high-performance Shopify infrastructure that scales seamlessly with your business ambitions.
             </p>
-            <a href="#contact" className="inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 font-semibold group transition">
+            <a href="#contact" className="inline-flex items-center gap-2 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold group transition">
               Discuss your project requirements
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </a>
@@ -69,16 +69,16 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1, type: "spring", bounce: 0.4 }}
                 viewport={{ once: true, margin: "-50px" }}
-                className="group relative h-full rounded-[2rem] bg-slate-800/50 dark:bg-white/5 border border-slate-700/50 dark:border-white/10 p-8 hover:bg-slate-800 dark:hover:bg-white/10 transition-colors overflow-hidden"
+                className="group relative h-full rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-8 shadow-sm hover:shadow-xl dark:shadow-none hover:bg-slate-50 dark:hover:bg-white/10 transition-all overflow-hidden"
               >
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-500 rounded-full`} />
                 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center bg-slate-900/50 dark:bg-black/50 border border-slate-700/50 dark:border-white/5 mb-6 text-white group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center bg-slate-100 dark:bg-black/50 border border-slate-200 dark:border-white/5 mb-6 text-slate-800 dark:text-white group-hover:scale-110 transition-transform duration-300`}>
                     <service.icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl font-semibold mb-4 text-white">{service.title}</h3>
-                  <p className="text-slate-400 leading-relaxed text-sm mt-auto">
+                  <h3 className="text-2xl font-semibold mb-4 text-slate-900 dark:text-white">{service.title}</h3>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm mt-auto">
                     {service.description}
                   </p>
                 </div>

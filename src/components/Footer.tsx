@@ -1,4 +1,5 @@
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,22 +18,22 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex md:justify-end gap-4">
-            <a href="#" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
               <Github className="h-5 w-5" />
               <span className="sr-only">GitHub</span>
             </a>
-            <a href="#" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
               <Linkedin className="h-5 w-5" />
               <span className="sr-only">LinkedIn</span>
             </a>
-            <a href="#" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
               <Twitter className="h-5 w-5" />
               <span className="sr-only">Twitter</span>
             </a>
-            <a href="/#contact" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
+            <Link href="/#contact" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
               <Mail className="h-5 w-5" />
               <span className="sr-only">Email</span>
-            </a>
+            </Link>
           </div>
         </div>
 

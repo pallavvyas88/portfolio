@@ -26,7 +26,7 @@ export default function BootSequence() {
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [scanResults, setScanResults] = useState<any>(null);
+  const [scanResults, setScanResults] = useState<{ score: number; issues: Array<{ severity: string; label: string; detail: string }> } | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const { openApp, setBootSequenceComplete } = useOSStore();
 
@@ -197,7 +197,7 @@ export default function BootSequence() {
                 <span className="text-2xl font-bold text-white">{scanResults.score}<span className="text-slate-500 text-sm">/100</span></span>
               </div>
               <div className="space-y-2">
-                {scanResults.issues.map((issue: any, i: number) => (
+                {scanResults.issues.map((issue, i: number) => (
                   <div key={i} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <span className={`w-2 h-2 rounded-full ${

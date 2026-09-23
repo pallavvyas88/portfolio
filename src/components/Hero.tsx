@@ -2,18 +2,16 @@
 
 import { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Sparkles, Code2, Rocket, ShoppingCart, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, Code2, ShoppingCart, Zap } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+  const { scrollY } = useScroll();
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const y1 = useTransform(scrollY, [0, 600], [0, 100]);
+  const y2 = useTransform(scrollY, [0, 600], [0, -80]);
+  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
@@ -27,9 +25,9 @@ export default function Hero() {
   };
 
   return (
-    <section ref={containerRef} onMouseMove={handleMouseMove} id="hero" className="relative min-h-[100vh] overflow-hidden flex items-center pt-20 pb-16 md:pt-24 bg-[#030303]">
+    <section ref={containerRef} onMouseMove={handleMouseMove} id="hero" className="relative min-h-[100vh] overflow-hidden flex items-center pt-24 pb-16 md:pt-28 bg-slate-50 dark:bg-[#030303] transition-colors duration-300">
       {/* Dynamic Grid & Ambient Glows */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0000000a_1px,transparent_1px),linear-gradient(to_bottom,#0000000a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       
       <motion.div
         animate={{
@@ -48,9 +46,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-5 py-2.5 text-sm font-medium tracking-widest text-white shadow-xl">
-                <Sparkles className="h-4 w-4 text-fuchsia-400" />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-400">
+              <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-md px-5 py-2.5 text-sm font-medium tracking-widest text-slate-800 dark:text-white shadow-xs dark:shadow-xl">
+                <Sparkles className="h-4 w-4 text-fuchsia-500 dark:text-fuchsia-400" />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-fuchsia-500 dark:from-sky-400 dark:to-fuchsia-400">
                   Shopify Plus Expert
                 </span>
               </div>
@@ -60,16 +58,16 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
-              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-white mb-6"
+              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6"
             >
-              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-fuchsia-500">Pallav Vyas.</span>
+              Hi, I&apos;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-blue-600 to-fuchsia-500 dark:from-sky-400 dark:via-blue-500 dark:to-fuchsia-500">Pallav Vyas.</span>
             </motion.h1>
             
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-              className="text-2xl sm:text-3xl font-light text-slate-300 mb-8"
+              className="text-2xl sm:text-3xl font-light text-slate-700 dark:text-slate-300 mb-8"
             >
               I architect high-converting, scalable e-commerce experiences.
             </motion.h2>
@@ -78,7 +76,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.4 }}
-              className="max-w-xl text-lg leading-relaxed text-slate-400 mb-10"
+              className="max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-400 mb-10"
             >
               Transforming complex technical requirements into flawless, lightning-fast Shopify storefronts. Specializing in Headless commerce, Liquid optimizations, and tailored App integrations.
             </motion.p>
@@ -87,7 +85,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex flex-wrap gap-5"
+              className="flex flex-wrap gap-4 sm:gap-5"
             >
               <a href="#portfolio" className="group relative inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-blue-600 px-8 py-4 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] overflow-hidden">
                 <span className="relative z-10 flex items-center">
@@ -95,16 +93,16 @@ export default function Hero() {
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </a>
-              <a href="#tools" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-sm font-bold text-white transition-all hover:bg-white/10 hover:border-white/20 hover:scale-105">
+              <Link href="/tools" className="inline-flex items-center justify-center rounded-full border border-slate-300 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-md px-8 py-4 text-sm font-bold text-slate-800 dark:text-white transition-all hover:bg-slate-100 dark:hover:bg-white/10 hover:border-slate-400 dark:hover:border-white/20 hover:scale-105 shadow-xs">
                 View My Tools
-              </a>
+              </Link>
             </motion.div>
 
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.7 }}
-              className="mt-16 grid grid-cols-3 gap-8 border-t border-white/10 pt-8"
+              className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 border-t border-slate-200 dark:border-white/10 pt-8"
             >
               {[
                 { value: '5+', label: 'Years Exp' },
@@ -112,8 +110,8 @@ export default function Hero() {
                 { value: '$2M+', label: 'Rev Gen' },
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col">
-                  <span className="text-3xl font-bold text-white">{stat.value}</span>
-                  <span className="text-sm text-slate-500 mt-1 uppercase tracking-wider">{stat.label}</span>
+                  <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{stat.value}</span>
+                  <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-wider">{stat.label}</span>
                 </div>
               ))}
             </motion.div>
