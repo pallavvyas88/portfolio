@@ -1,7 +1,6 @@
 import AnnouncementBar from '@/components/AnnouncementBar';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import IllustrationSection from '@/components/IllustrationSection';
 import About from '@/components/About';
 import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
@@ -29,9 +28,6 @@ export default function Home() {
       <main className="flex-1 space-y-4">
         {/* Hero Section */}
         <Hero />
-
-        {/* Feature Illustration */}
-        <IllustrationSection />
 
         {/* Engineering Philosophy & Skills */}
         <About />
