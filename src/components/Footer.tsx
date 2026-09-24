@@ -1,48 +1,101 @@
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+'use client';
+
+import React from 'react';
 import Link from 'next/link';
+import { Github, Linkedin, Twitter, Mail, ArrowUp } from 'lucide-react';
+import { BagMascotDoodle } from './doodles/BagMascotDoodle';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  return (
-    <footer className="relative bg-slate-50 dark:bg-slate-950 pt-20 pb-10 border-t border-slate-200 dark:border-white/10 overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_bottom,rgba(56,189,248,0.15),transparent_70%)] pointer-events-none" />
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-10 items-center border-b border-slate-200 dark:border-white/10 pb-10 mb-10">
+  return (
+    <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 border-t-2 border-dashed border-[var(--border-hand)]">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-[var(--border-hand)]">
+        
+        {/* Brand & Bio */}
+        <div className="flex items-center gap-3.5">
+          <BagMascotDoodle size={42} className="text-[var(--coral)]" />
           <div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">PALLAV VYAS</h3>
-            <p className="mt-4 max-w-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Engineering high-converting, scalable Shopify experiences for modern brands. Based on cutting-edge Web Vitals optimization and clean architecture.
+            <div className="font-black text-xl text-[var(--ink)] tracking-tight">
+              Pallav Vyas
+            </div>
+            <p className="text-xs text-[var(--ink-muted)] font-medium mt-0.5 max-w-sm">
+              Shopify Plus Architect specializing in zero-bloat Liquid 2.0 themes and Headless Hydrogen Next.js storefronts.
             </p>
-          </div>
-          <div className="flex md:justify-end gap-4">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
-              <Github className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
-              <Linkedin className="h-5 w-5" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
-              <Twitter className="h-5 w-5" />
-              <span className="sr-only">Twitter</span>
-            </a>
-            <Link href="/#contact" className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 transition-all hover:border-sky-500 hover:text-sky-500 dark:hover:text-sky-400 hover:shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1">
-              <Mail className="h-5 w-5" />
-              <span className="sr-only">Email</span>
-            </Link>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
-          <p>© {currentYear} Pallav Vyas. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-slate-900 dark:hover:text-white transition">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-900 dark:hover:text-white transition">Terms of Service</a>
-          </div>
+        {/* Social Badges */}
+        <div className="flex items-center gap-3">
+          <a
+            href="https://github.com/pallavvyas88"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="doodle-btn p-2.5 bg-[var(--paper)] text-[var(--ink)] hover:text-[var(--coral)]"
+            aria-label="GitHub"
+          >
+            <Github className="w-4 h-4" />
+          </a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="doodle-btn p-2.5 bg-[var(--paper)] text-[var(--ink)] hover:text-[var(--coral)]"
+            aria-label="LinkedIn"
+          >
+            <Linkedin className="w-4 h-4" />
+          </a>
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="doodle-btn p-2.5 bg-[var(--paper)] text-[var(--ink)] hover:text-[var(--coral)]"
+            aria-label="Twitter"
+          >
+            <Twitter className="w-4 h-4" />
+          </a>
+          <a
+            href="mailto:contact@pallav.dev"
+            className="doodle-btn p-2.5 bg-[var(--paper)] text-[var(--ink)] hover:text-[var(--coral)]"
+            aria-label="Email"
+          >
+            <Mail className="w-4 h-4" />
+          </a>
+          <button
+            onClick={scrollToTop}
+            className="doodle-btn px-3 py-2 bg-[var(--paper)] text-[var(--ink)] text-xs font-bold flex items-center gap-1 hover:text-[var(--coral)] cursor-pointer"
+            aria-label="Back to top"
+          >
+            <span>Top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+      </div>
+
+      {/* Sub-footer copyright & tech tags */}
+      <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--ink-muted)]">
+        <div>
+          &copy; {currentYear} Pallav Vyas &bull; Engineered with Liquid, Next.js & Doodles ✏️
+        </div>
+
+        <div className="flex items-center gap-6 font-bold">
+          <Link href="/tools" className="hover:text-[var(--coral)] transition-colors">
+            Free Developer Tools
+          </Link>
+          <a href="#approach" className="hover:text-[var(--coral)] transition-colors">
+            Approach
+          </a>
+          <a href="#pricing" className="hover:text-[var(--coral)] transition-colors">
+            Sprint Pricing
+          </a>
+          <a href="#contact" className="hover:text-[var(--coral)] transition-colors">
+            Hire Me
+          </a>
         </div>
       </div>
     </footer>

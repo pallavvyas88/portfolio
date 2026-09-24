@@ -1,107 +1,109 @@
 'use client';
 
-import { motion, Variants } from 'framer-motion';
-import { Code, Palette, Zap, Server, Mail, Webhook, Cpu, Puzzle } from 'lucide-react';
+import React from 'react';
+import { WashiTape } from './doodles/WashiTape';
+import { 
+  Code, 
+  Palette, 
+  Zap, 
+  Server, 
+  Mail, 
+  Webhook, 
+  Cpu, 
+  Puzzle,
+  CheckCircle2
+} from 'lucide-react';
 
-const skills = [
-  { name: 'Shopify Liquid', icon: Code, desc: 'Deep custom theme development' },
-  { name: 'Storefront API', icon: Server, desc: 'Headless commerce solutions' },
-  { name: 'Theme Architecture', icon: Palette, desc: 'OS 2.0 & Custom sections' },
-  { name: 'App Integrations', icon: Puzzle, desc: 'Seamless third-party syncs' },
-  { name: 'Webhooks & Flow', icon: Webhook, desc: 'Automated backend logic' },
-  { name: 'Core Web Vitals', icon: Cpu, desc: '90+ Lighthouse optimization' },
-  { name: 'Recharge / Skio', icon: Zap, desc: 'Complex subscription setups' },
-  { name: 'Klaviyo / Marketing', icon: Mail, desc: 'Data-driven email flows' },
+const coreTech = [
+  { name: 'Shopify Liquid 2.0', icon: Code, desc: 'Custom sections, Metafields, & Metaobjects' },
+  { name: 'Shopify REST APIs', icon: Server, desc: 'Dynamic filtering & data syncing' },
+  { name: 'React & JavaScript', icon: Palette, desc: 'Frontend architecture & jQuery migrations' },
+  { name: 'Node.js Automations', icon: Puzzle, desc: 'Airtable syncs & backend scripts' },
+  { name: 'Firebase (Auth/Firestore)', icon: Webhook, desc: 'Real-time databases & custom portals' },
+  { name: 'Core Web Vitals', icon: Cpu, desc: 'Mobile speed & CLS optimization' },
+  { name: 'Recharge Subscriptions', icon: Zap, desc: 'Complex workflows & customer portals' },
+  { name: 'Figma to Code', icon: Mail, desc: 'Pixel-perfect, zero-shift conversions' },
 ];
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 100 },
-  },
-};
 
 export default function About() {
   return (
-    <section id="about" className="relative py-20 md:py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden">
-      {/* Background Accents */}
-      <div className="absolute top-0 right-0 -translate-y-12 translate-x-1/3 w-[800px] h-[800px] bg-sky-100/50 dark:bg-sky-900/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/3 w-[600px] h-[600px] bg-fuchsia-100/50 dark:bg-fuchsia-900/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        
+        {/* Left Column: Philosophy Box */}
+        <div className="lg:col-span-5 relative">
+          <div className="doodle-box p-7 sm:p-9 relative bg-[var(--paper)]">
+            <WashiTape width="w-28 sm:w-32" rotate="-rotate-2" className="-top-3 left-6" />
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Column: Bio */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm uppercase tracking-widest text-sky-600 dark:text-sky-400 font-medium mb-6">
-              About The Developer
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-              Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-fuchsia-500">Future of E-commerce</span>
-            </h2>
-            <div className="space-y-6 text-lg text-slate-600 dark:text-slate-300">
-              <p>
-                I am Pallav Vyas, a senior Shopify Developer dedicated to building high-end, scalable, and conversion-optimized e-commerce platforms. I don&apos;t just build stores; I engineer robust technical solutions that drive measurable business growth.
+            <div className="pt-2">
+              <span className="font-doodle text-2xl text-[var(--coral)] block font-bold mb-1">
+                The Engineering Philosophy
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black text-[var(--ink)] tracking-tight mb-4">
+                Code that scales your GMV, not your app stack.
+              </h2>
+              <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed mb-6">
+                Most agencies patch theme shortcomings by piling on $50/month apps that inject bloated scripts into your storefront.
               </p>
-              <p>
-                With a deep understanding of the Shopify ecosystem—from complex Liquid architectures and Headless Storefront APIs to intricate App Integrations—I bridge the gap between stunning design and flawless backend execution.
+              <p className="text-sm sm:text-base text-[var(--ink-muted)] leading-relaxed mb-8">
+                I do the exact opposite: I build native, high-performance Liquid and Headless systems that load instantly, convert higher, and keep your maintenance costs down.
               </p>
-            </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-6">
-              <div className="border-l-2 border-sky-500 pl-4">
-                <p className="text-3xl font-bold text-slate-900 dark:text-white">5+</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Years scaling Shopify brands</p>
-              </div>
-              <div className="border-l-2 border-fuchsia-500 pl-4">
-                <p className="text-3xl font-bold text-slate-900 dark:text-white">100%</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Commitment to code quality</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Skills Grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-2 gap-4 sm:gap-6"
-          >
-            {skills.map((skill) => (
-              <motion.div
-                key={skill.name}
-                variants={itemVariants}
-                className="group relative bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-fuchsia-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative z-10">
-                  <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center mb-4 text-sky-500 dark:text-sky-400 group-hover:scale-110 transition-transform duration-300">
-                    <skill.icon className="w-6 h-6" />
-                  </div>
-                  <h4 className="font-semibold text-slate-900 dark:text-white mb-1">{skill.name}</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{skill.desc}</p>
+              {/* Founder Checklist */}
+              <div className="space-y-3 pt-4 border-t border-[var(--border-hand)] text-xs sm:text-sm font-bold text-[var(--ink)]">
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Direct founder collaboration on every line of code</span>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Zero junior handoffs &middot; 100% senior delivery</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Guaranteed Core Web Vitals pass & 48hr technical audit</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Right Column: Tech & Toolkit Grid */}
+        <div className="lg:col-span-7 space-y-6">
+          <div>
+            <div className="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/70 border border-blue-300 dark:border-blue-800 text-[var(--cobalt)] text-xs font-bold mb-3">
+              Production Stack
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-[var(--ink)]">
+              Mastery Across the Shopify Ecosystem
+            </h3>
+            <p className="text-sm text-[var(--ink-muted)] mt-1.5 max-w-lg">
+              Specialized technical tools engineered to build lightning-fast storefronts and resilient eCommerce infrastructure.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {coreTech.map((tech) => (
+              <div
+                key={tech.name}
+                className="doodle-box-flat p-4 bg-[var(--paper)] hover:border-[var(--coral)] transition-colors flex items-start gap-3.5"
+              >
+                <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/50 border border-orange-200 dark:border-orange-800 text-[var(--coral)] flex items-center justify-center shrink-0 mt-0.5">
+                  <tech.icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-sm text-[var(--ink)]">
+                    {tech.name}
+                  </h4>
+                  <p className="text-xs text-[var(--ink-muted)] mt-0.5 leading-normal">
+                    {tech.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

@@ -205,40 +205,34 @@ export default function ImageOptimizerTool() {
   };
 
   return (
-    <section id="tools" className="relative py-16 md:py-24 bg-slate-50 dark:bg-slate-950 overflow-hidden text-slate-900 dark:text-white transition-colors duration-300">
-      {/* Immersive Background */}
-      <div className="absolute inset-0 bg-slate-100/50 dark:bg-[#050505] transition-colors duration-500" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.06)_0%,transparent_100%)] pointer-events-none" />
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-purple-600/5 dark:bg-purple-600/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-sky-600/5 dark:bg-sky-600/10 blur-[150px] rounded-full pointer-events-none" />
-
+    <section id="tools" className="relative py-8 md:py-16 bg-[var(--bg-canvas)] text-[var(--ink)] transition-colors duration-300">
       <div className="container relative z-10 mx-auto px-4 max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-5 py-2 text-sm font-medium tracking-widest text-sky-600 dark:text-sky-400 shadow-xs dark:shadow-[0_0_20px_rgba(56,189,248,0.15)]">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-300 dark:border-orange-800 bg-orange-100 dark:bg-orange-950/60 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[var(--coral)]">
             <Layers className="h-4 w-4" />
-            Neural Image Engine
+            Neural Image Engine &bull; Shopify Spec
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-            Lossless Image <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-600 dark:from-sky-400 dark:to-purple-500">Compression.</span>
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--ink)] mb-4">
+            Lossless Browser Image Compression
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
-            Upload massive image assets and watch our intelligent browser engine slash sizes by up to 80% instantly and securely.
+          <p className="text-sm sm:text-base text-[var(--ink-muted)] max-w-2xl mx-auto mb-6 leading-relaxed">
+            Upload large product photography and let our WebAssembly engine convert to modern WebP/AVIF formats with up to 80% size reduction. Zero server uploads.
           </p>
 
           {/* Prominent Privacy Banner */}
-          <div className="mx-auto max-w-2xl bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 flex items-center justify-center gap-3 backdrop-blur-md shadow-xs dark:shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-            <div className="bg-emerald-500/20 p-2 rounded-full text-emerald-600 dark:text-emerald-400">
-               <svg height="20" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="20" data-view-component="true" className="fill-current"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+          <div className="mx-auto max-w-2xl doodle-box-flat bg-emerald-50/90 dark:bg-emerald-950/40 p-4 flex items-center justify-center gap-3">
+            <div className="bg-emerald-200 dark:bg-emerald-900/60 p-2 rounded-full text-emerald-800 dark:text-emerald-300">
+               <svg height="18" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="18" data-view-component="true" className="fill-current"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
             </div>
             <div className="text-left">
-              <p className="text-emerald-700 dark:text-emerald-400 font-bold text-sm">100% Secure & Private</p>
-              <p className="text-slate-600 dark:text-slate-300 text-xs">All processing happens locally in your browser. No files are ever uploaded or stored on our servers.</p>
+              <p className="text-emerald-900 dark:text-emerald-200 font-extrabold text-xs sm:text-sm">100% Client-Side & Secure</p>
+              <p className="text-emerald-800 dark:text-emerald-300 text-xs">All processing executes locally in your browser memory. No assets are ever uploaded to cloud servers.</p>
             </div>
           </div>
         </motion.div>
@@ -251,7 +245,7 @@ export default function ImageOptimizerTool() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 sm:p-8 backdrop-blur-2xl shadow-sm dark:shadow-2xl"
+              className="doodle-box p-6 sm:p-8 bg-[var(--paper)]"
             >
               {/* Dropzone */}
               <div

@@ -1,47 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Google Sans", "Aptos Display", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+}
+
+:root {
+  --bg-canvas: #FAF7F2;
+  --paper: #FFFFFF;
+  --ink: #18181B;
+  --ink-muted: #52525B;
+  --border-hand: #E4DEC9;
+  --border-dark: #18181B;
+  --coral: #FF5A36;
+  --coral-hover: #E04826;
+  --mustard: #FFB800;
+  --cobalt: #2563EB;
+  --mint: #10B981;
+  --tape: rgba(254, 240, 138, 0.7);
+  --color-background: #FAF7F2;
+  --color-foreground: #18181B;
+  --color-border: #E4DEC9;
+  --color-primary: #FF5A36;
+}
+
+.dark {
+  --bg-canvas: #0C0F14;
+  --paper: #141923;
+  --ink: #F4F4F5;
+  --ink-muted: #A1A1AA;
+  --border-hand: #273142;
+  --border-dark: #F4F4F5;
+  --coral: #FF6B4A;
+  --coral-hover: #FA5834;
+  --mustard: #FACC15;
+  --cobalt: #60A5FA;
+  --mint: #34D399;
+  --tape: rgba(234, 179, 8, 0.25);
+  --color-background: #0C0F14;
+  --color-foreground: #F4F4F5;
+  --color-border: #273142;
+  --color-primary: #FF6B4A;
 }
 
 @layer base {
-  :root {
-    --color-background: hsl(0 0% 100%);
-    --color-foreground: hsl(222.2 84% 4.9%);
-    --color-border: hsl(214.3 31.8% 91.4%);
-    --color-primary: hsl(199 89% 48%);
-  }
-  
-  .dark {
-    --color-background: hsl(222.2 84% 4.9%);
-    --color-foreground: hsl(210 40% 98%);
-    --color-border: hsl(217.2 32.6% 17.5%);
-    --color-primary: hsl(199 89% 58%);
-  }
-
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--bg-canvas);
+    color: var(--ink);
     font-family: var(--font-sans);
     line-height: 1.5;
+    background-image: radial-gradient(circle at 1px 1px, rgba(24, 24, 27, 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
+
+  .dark body {
+    background-image: radial-gradient(circle at 1px 1px, rgba(244, 244, 245, 0.04) 1px, transparent 0);
+  }
+
   html {
     scroll-behavior: smooth;
   }
-  * {
-    border-color: var(--color-border);
-  }
 }
 
-/* Glassmorphism utilities */
-.glass {
-  @apply bg-slate-900/5 dark:bg-white/10 backdrop-blur-md border border-slate-900/10 dark:border-white/10 shadow-xs;
+/* Handwriting script font */
+.font-doodle {
+  font-family: 'Caveat', cursive;
 }
 
-.glass-panel {
-  @apply bg-white/85 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 shadow-xl;
+/* Handcrafted Neo-Doodle Box */
+.doodle-box {
+  border: 2px solid var(--border-dark);
+  background: var(--paper);
+  box-shadow: 4px 4px 0px 0px var(--border-dark);
+  border-radius: 1.25rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.doodle-box:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px var(--border-dark);
+}
+
+.doodle-box-flat {
+  border: 2px solid var(--border-dark);
+  background: var(--paper);
+  box-shadow: 3px 3px 0px 0px var(--border-dark);
+  border-radius: 1rem;
+}
+
+/* Handcrafted Doodle Button */
+.doodle-btn {
+  border: 2px solid var(--border-dark);
+  box-shadow: 3px 3px 0px 0px var(--border-dark);
+  border-radius: 0.85rem;
+  transition: all 0.15s ease;
+}
+
+.doodle-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px 0px var(--border-dark);
+}
+
+.doodle-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px var(--border-dark);
+}
+
+/* Washi tape sticker */
+.washi-tape {
+  background: var(--tape);
+  border-left: 2px dashed rgba(0, 0, 0, 0.2);
+  border-right: 2px dashed rgba(0, 0, 0, 0.2);
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+
+.wiggle {
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+@keyframes floatDoodle {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.float-doodle {
+  animation: floatDoodle 4s ease-in-out infinite;
 }
