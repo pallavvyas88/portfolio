@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Github, Linkedin, Twitter, Mail, ArrowUp } from 'lucide-react';
-import { BagMascotDoodle } from './doodles/BagMascotDoodle';
+import BrandLogo from './doodles/BrandLogo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -18,7 +18,7 @@ export default function Footer() {
         
         {/* Brand & Bio */}
         <div className="flex items-center gap-3.5">
-          <BagMascotDoodle size={42} className="text-[var(--coral)]" />
+          <BrandLogo className="w-10 h-10 text-[var(--coral)]" />
           <div>
             <div className="font-black text-xl text-[var(--ink)] tracking-tight">
               Pallav Vyas
