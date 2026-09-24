@@ -15,14 +15,14 @@ import {
 } from 'lucide-react';
 
 const coreTech = [
-  { name: 'Shopify Liquid 2.0', icon: Code, desc: 'Bespoke custom sections & schemas' },
-  { name: 'Storefront GraphQL API', icon: Server, desc: 'Headless Next.js & Hydrogen builds' },
-  { name: 'Theme Architecture', icon: Palette, desc: 'Modular, zero-app codebases' },
-  { name: 'Shopify Functions & Rust', icon: Puzzle, desc: 'Native cart transforms & rules' },
-  { name: 'Webhooks & Flow', icon: Webhook, desc: 'Event-driven automated backend logic' },
-  { name: 'Core Web Vitals', icon: Cpu, desc: '90+ Lighthouse speed optimization' },
-  { name: 'Recharge & Skio', icon: Zap, desc: 'Complex subscriptions & bundle engines' },
-  { name: 'Klaviyo & Analytics', icon: Mail, desc: 'Server-side tracking & events' },
+  { name: 'Shopify Liquid 2.0', icon: Code, desc: 'Custom sections, Metafields, & Metaobjects' },
+  { name: 'Shopify REST APIs', icon: Server, desc: 'Dynamic filtering & data syncing' },
+  { name: 'React & JavaScript', icon: Palette, desc: 'Frontend architecture & jQuery migrations' },
+  { name: 'Node.js Automations', icon: Puzzle, desc: 'Airtable syncs & backend scripts' },
+  { name: 'Firebase (Auth/Firestore)', icon: Webhook, desc: 'Real-time databases & custom portals' },
+  { name: 'Core Web Vitals', icon: Cpu, desc: 'Mobile speed & CLS optimization' },
+  { name: 'Recharge Subscriptions', icon: Zap, desc: 'Complex workflows & customer portals' },
+  { name: 'Figma to Code', icon: Mail, desc: 'Pixel-perfect, zero-shift conversions' },
 ];
 
 export default function About() {
