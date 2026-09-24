@@ -5,9 +5,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Shopify Developer Portfolio",
   description: "Expert Shopify developer specializing in Liquid, APIs, and custom integrations",
-  icons: {
-    icon: "/PV-DARK-final.svg",
-  },
 };
 
 export default function RootLayout({
