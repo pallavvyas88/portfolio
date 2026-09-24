@@ -31,7 +31,7 @@ export default function Navbar() {
           {/* Logo with Hand-Drawn Mascot */}
           <Link href="/" className="flex items-center gap-3 group shrink-0">
             <div className="relative group-hover:scale-105 transition-transform">
-              <BrandLogo className="w-9 h-9" />
+              <BrandLogo className="w-9 h-9 text-[var(--coral)]" />
             </div>
             <div>
               <div className="font-extrabold text-lg sm:text-xl tracking-tight text-[var(--ink)] leading-none">
