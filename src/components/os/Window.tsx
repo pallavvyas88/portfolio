@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useOSStore, AppId } from '@/store/osStore';
 import { X, Minus, Maximize2 } from 'lucide-react';

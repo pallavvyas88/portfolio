@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, } from 'react';
+import { motion, } from 'framer-motion';
 import { useOSStore, type AppId } from '@/store/osStore';
-import { Search, X, Terminal, User, Briefcase, Brain, Radio, Zap, Server, Package, ArrowRight } from 'lucide-react';
+import {    User, Briefcase, Brain, Radio, Zap,   } from 'lucide-react';
 
 const bootSteps = [
   { text: 'Initializing VyOS v2.4...', duration: 400 },
@@ -28,7 +28,7 @@ export default function BootSequence() {
   const [inputValue, setInputValue] = useState('');
   const [scanResults, setScanResults] = useState<{ url?: string; score: number; issues: Array<{ severity: string; label: string; value?: string; detail: string }> } | null>(null);
   const [isScanning, setIsScanning] = useState(false);
-  const { openApp, setBootSequenceComplete } = useOSStore();
+  const { openApp,  } = useOSStore();
 
   useEffect(() => {
     if (currentStep >= bootSteps.length) {
@@ -44,9 +44,7 @@ export default function BootSequence() {
     return () => clearTimeout(timer);
   }, [currentStep]);
 
-  const handleComplete = useCallback(() => {
-    setBootSequenceComplete(true);
-  }, [setBootSequenceComplete]);
+
 
   const runScan = async (url: string) => {
     setIsScanning(true);
@@ -157,7 +155,7 @@ export default function BootSequence() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.08)_0%,transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(139,92,246,0.06)_0%,transparent_50%)]" />
       
-      {/* Main Terminal Window */}
+      {/* Main Window */}
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -171,11 +169,11 @@ export default function BootSequence() {
             <div className="w-3 h-3 rounded-full bg-green-500/60" />
           </div>
           <div className="flex-1 text-center">
-            <span className="text-xs text-slate-500 font-mono">VyOS Terminal v2.4</span>
+            <span className="text-xs text-slate-500 font-mono">VyOS v2.4</span>
           </div>
         </div>
 
-        {/* Terminal Content */}
+        {/* Content */}
         <div className="p-6 font-mono text-sm min-h-[400px]">
           {/* Previous output */}
           {displayedLines.map((line, i) => (

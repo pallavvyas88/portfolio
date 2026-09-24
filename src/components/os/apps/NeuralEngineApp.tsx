@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Upload, FileImage, Zap, ArrowRight, Download, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { Brain, Upload, FileImage, Zap, ArrowRight,  X, CheckCircle, } from 'lucide-react';
 
 interface ProcessedFile {
   name: string;

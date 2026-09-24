@@ -2,7 +2,6 @@
 
 import { useOSStore, AppId } from '@/store/osStore';
 import { Terminal, Cpu, Layers, Zap, Mail, Command } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const apps = [
   { id: 'terminal' as AppId, name: 'Terminal', icon: Terminal, color: 'text-emerald-400', shortcut: '⌘1' },

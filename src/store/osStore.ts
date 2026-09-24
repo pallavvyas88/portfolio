@@ -32,7 +32,7 @@ const initialState: Record<AppId, WindowState> = {
   logiwa: { id: 'logiwa', title: 'Logiwa WMS', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
 };
 
-export const useOSStore = create<OSStore>((set, get) => ({
+export const useOSStore = create<OSStore>((set, ) => ({
   windows: initialState,
   activeWindow: 'terminal',
   bootSequenceComplete: false,

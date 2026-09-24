@@ -3,7 +3,6 @@ export * from './DoodleSquiggle';
 export * from './DoodleHighlight';
 export * from './DoodleSparkle';
 export * from './DoodleBadge';
-export * from './BagMascotDoodle';
 export * from './RocketDoodle';
 export * from './LightbulbDoodle';
 export * from './SpeedGaugeDoodle';

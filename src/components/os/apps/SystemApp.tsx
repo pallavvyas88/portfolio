@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Terminal, Zap, Server, Database, Code2, ArrowUpRight, Github, ExternalLink } from 'lucide-react';
+import { Terminal, Zap, Server, Database,  ArrowUpRight,  } from 'lucide-react';
 
 const stats = [
   { label: 'Projects Deployed', value: '50+', icon: Server },

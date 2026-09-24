@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Database, RefreshCw, Package, Truck, AlertTriangle, CheckCircle, Clock, Zap } from 'lucide-react';
+import { Database, RefreshCw, Package,   CheckCircle,  Zap } from 'lucide-react';
 
 const syncLogs = [
   { time: '14:32:01', type: 'info', message: 'Initiating Logiwa WMS connection...' },
@@ -30,7 +30,7 @@ const pendingItems = [
 
 export default function LogiwaApp() {
   const [logs, setLogs] = useState(syncLogs);
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, ] = useState(true);
 
   // Simulate live log updates
   useEffect(() => {

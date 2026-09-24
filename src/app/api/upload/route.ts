@@ -143,7 +143,7 @@ export async function POST(req: Request) {
     
     try {
       await fs.mkdir(batchDir, { recursive: true });
-    } catch (e) {
+    } catch {
       // Ignore directory exists error
     }
 
