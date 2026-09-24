@@ -5,7 +5,7 @@ import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BagMascotDoodle } from './doodles/BagMascotDoodle';
+import BrandLogo from './doodles/BrandLogo';
 
 const navItems = [
   { name: 'Approach', href: '/#approach' },
@@ -31,7 +31,7 @@ export default function Navbar() {
           {/* Logo with Hand-Drawn Mascot */}
           <Link href="/" className="flex items-center gap-3 group shrink-0">
             <div className="relative group-hover:scale-105 transition-transform">
-              <BagMascotDoodle className="w-9 h-9 text-[var(--coral)]" />
+              <BrandLogo className="w-9 h-9" />
             </div>
             <div>
               <div className="font-extrabold text-lg sm:text-xl tracking-tight text-[var(--ink)] leading-none">
